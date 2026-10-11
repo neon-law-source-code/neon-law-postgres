@@ -31,3 +31,5 @@ for every base, extension or SDK upgrade. Pin application versions explicitly fo
 
 Upstream references: https://age.apache.org/download/,
 https://github.com/pgvector/pgvector, https://github.com/dbos-inc/dbos-transact-rust.
+
+Bundled AGE and pgvector license files and AGE NOTICE are retained under `/usr/share/doc` in the image.

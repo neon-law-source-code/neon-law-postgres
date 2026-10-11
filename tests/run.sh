@@ -20,6 +20,7 @@ ready() {
 }
 docker run -d --name "$name" -e POSTGRES_PASSWORD=synthetic -e POSTGRES_DB=smoke -v "$volume:/var/lib/postgresql/data" -p 127.0.0.1::5432 "$image"
 ready
+[[ $(docker exec "$name" stat -c %U /proc/1) == postgres ]]
 docker exec -i "$name" psql -U postgres -d smoke < tests/extensions.sql
 docker restart "$name" >/dev/null
 ready
