@@ -10,7 +10,7 @@ async fn write_effect(key: &str) -> dbos::Result<(), SmokeError> {
     let (client, connection) = tokio_postgres::connect(&url, tokio_postgres::NoTls)
         .await
         .map_err(|e| SmokeError(e.to_string()))?;
-    let connection_task = tokio::spawn(async move { connection.await });
+    let connection_task = tokio::spawn(connection);
     client
         .execute("INSERT INTO public.attempts(key) VALUES($1)", &[&key])
         .await
