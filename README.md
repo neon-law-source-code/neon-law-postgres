@@ -33,3 +33,15 @@ Upstream references: https://age.apache.org/download/,
 https://github.com/pgvector/pgvector, https://github.com/dbos-inc/dbos-transact-rust.
 
 Bundled AGE and pgvector license files and AGE NOTICE are retained under `/usr/share/doc` in the image.
+
+## Local smoke lane
+
+```bash
+docker build -f Containerfile -t postgres-age:smoke .
+bash tests/run.sh postgres-age:smoke
+```
+
+The test creates and removes only its randomly named PostgreSQL container and volume.
+It requires Docker, Cargo with Rust 1.98, curl, and an available port 8080 for synthetic Axum readiness.
+For a released artifact, pass `ghcr.io/neon-law-source-code/postgres-age@sha256:<published-index>`
+as the test argument. Native CI runners test each architecture; emulated local runs supplement that gate.
