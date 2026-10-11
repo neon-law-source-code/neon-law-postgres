@@ -40,12 +40,12 @@ jobs:
           file: Containerfile
           load: ${{ github.event_name == 'pull_request' }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ github.event_name == 'pull_request' && 'postgres-neon-law:smoke' || format('ghcr.io/neon-law-source-code/postgres-neon-law:candidate-{0}-{1}-{2}', github.run_id, github.run_attempt, matrix.arch) }}
+          tags: ${{ github.event_name == 'pull_request' && 'neon-law-postgres:smoke' || format('ghcr.io/neon-law-source-code/neon-law-postgres:candidate-{0}-{1}-{2}', github.run_id, github.run_attempt, matrix.arch) }}
           sbom: ${{ github.event_name != 'pull_request' }}
           provenance: ${{ github.event_name != 'pull_request' && 'mode=max' || 'false' }}
       - name: Test exact candidate
         env:
-          IMAGE: ${{ github.event_name == 'pull_request' && 'postgres-neon-law:smoke' || format('ghcr.io/neon-law-source-code/postgres-neon-law@{0}', steps.build.outputs.digest) }}
+          IMAGE: ${{ github.event_name == 'pull_request' && 'neon-law-postgres:smoke' || format('ghcr.io/neon-law-source-code/neon-law-postgres@{0}', steps.build.outputs.digest) }}
         run: |
           bash tests/run.sh "$IMAGE" | tee smoke.log
           echo "$IMAGE" >> "$GITHUB_STEP_SUMMARY"
@@ -71,7 +71,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Promote tested manifests without rebuilding
         run: |
-          registry=ghcr.io/neon-law-source-code/postgres-neon-law
+          registry=ghcr.io/neon-law-source-code/neon-law-postgres
           tag="$registry:pg16.15-age1.6.0-vector0.8.2-${{ github.sha }}"
           docker buildx imagetools create --tag "$tag" \
             "$registry:candidate-${{ github.run_id }}-${{ github.run_attempt }}-amd64" \
