@@ -10,7 +10,7 @@ AGE needs `LOAD 'age'` and `SET search_path = ag_catalog, public` per connection
 Use a pool connection initializer in applications. Vector builds disable host-specific CPU optimization.
 
 CI builds and tests AMD64 and ARM64 before publishing a multi-platform index to
-`ghcr.io/neon-law-source-code/postgres-age`. It records the published digest in the job summary.
+`ghcr.io/neon-law-source-code/postgres-neon-law`. It records the published digest in the job summary.
 Consumers must pin that digest. Tags alone are not a release contract.
 
 The smoke test proves extension loading and queries, GIN/HNSW index construction, database persistence,
@@ -37,11 +37,11 @@ Bundled AGE and pgvector license files and AGE NOTICE are retained under `/usr/s
 ## Local smoke lane
 
 ```bash
-docker build -f Containerfile -t postgres-age:smoke .
-bash tests/run.sh postgres-age:smoke
+docker build -f Containerfile -t postgres-neon-law:smoke .
+bash tests/run.sh postgres-neon-law:smoke
 ```
 
 The test creates and removes only its randomly named PostgreSQL container and volume.
 It requires Docker, Cargo with Rust 1.98, curl, and an available port 8080 for synthetic Axum readiness.
-For a released artifact, pass `ghcr.io/neon-law-source-code/postgres-age@sha256:<published-index>`
+For a released artifact, pass `ghcr.io/neon-law-source-code/postgres-neon-law@sha256:<published-index>`
 as the test argument. Native CI runners test each architecture; emulated local runs supplement that gate.

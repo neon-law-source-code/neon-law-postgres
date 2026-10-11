@@ -12,8 +12,8 @@ RUN curl -fLsS https://github.com/pgvector/pgvector/archive/refs/tags/v0.8.2.tar
  && make -C vector PG_CONFIG=/usr/lib/postgresql/16/bin/pg_config OPTFLAGS='' -j2 \
  && make -C vector PG_CONFIG=/usr/lib/postgresql/16/bin/pg_config DESTDIR=/out install
 FROM postgres:16.15-bookworm@sha256:0ea6700a3b4f0ae6ce746519073558aed4d88a79d8d07622a9a644946c7319c4
-LABEL org.opencontainers.image.source="https://github.com/neon-law-source-code/postgres-age"
+LABEL org.opencontainers.image.source="https://github.com/neon-law-source-code/postgres-neon-law"
 COPY --from=build /out/ /
 COPY --from=build /src/age/LICENSE /src/age/NOTICE /usr/share/doc/apache-age/
 COPY --from=build /src/vector/LICENSE /usr/share/doc/pgvector/LICENSE
-COPY LICENSE NOTICE /usr/share/doc/postgres-age/
+COPY LICENSE NOTICE /usr/share/doc/postgres-neon-law/
