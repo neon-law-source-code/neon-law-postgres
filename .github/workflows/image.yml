@@ -41,8 +41,8 @@ jobs:
           load: ${{ github.event_name == 'pull_request' }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ github.event_name == 'pull_request' && 'postgres-age:smoke' || format('ghcr.io/neon-law-source-code/postgres-age:candidate-{0}-{1}-{2}', github.run_id, github.run_attempt, matrix.arch) }}
-          sbom: true
-          provenance: mode=max
+          sbom: ${{ github.event_name != 'pull_request' }}
+          provenance: ${{ github.event_name != 'pull_request' && 'mode=max' || 'false' }}
       - name: Test exact candidate
         env:
           IMAGE: ${{ github.event_name == 'pull_request' && 'postgres-age:smoke' || format('ghcr.io/neon-law-source-code/postgres-age@{0}', steps.build.outputs.digest) }}
