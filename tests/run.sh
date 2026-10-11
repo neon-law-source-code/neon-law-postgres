@@ -13,7 +13,7 @@ trap cleanup EXIT
 sql() { docker exec "$name" psql -U postgres -d smoke -v ON_ERROR_STOP=1 -Atc "$1"; }
 ready() {
   for _ in $(seq 1 60); do
-    if docker exec "$name" pg_isready -U postgres -d smoke >/dev/null 2>&1; then return; fi
+    if docker exec "$name" pg_isready -h 127.0.0.1 -U postgres -d smoke >/dev/null 2>&1; then return; fi
     sleep 1
   done
   docker logs "$name"; return 1
